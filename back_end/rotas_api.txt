@@ -1,0 +1,24 @@
+Exemplo:
+NNOME: Exemplos
+ROTA: 'app/exemplo1/exemplo2'
+RESPONSE: Retorna os exemplos e bla, bla e bla.
+
+NOME:
+ROTA:
+RESPONSE:
+
+NOME: LIGA
+ROTA: 'app/liga{id}'
+RESPONSE: Retorna informações da liga, junto de informações superficiais de jogos.
+
+NOME: Time
+ROTA: 'app/time{id}'
+RESPONSE: Retorna informações do time, junto de informações superficiais de jogos e jogadores.
+
+NOME: Jogador
+ROTA: 'app/time{id}/jogador{id}'
+RESPONSE: Retorna informações do jogador, junto de informações superficiais de jogos.
+
+NOME: Jogo
+ROTA: 'app/liga{id}/jogo{id}'
+RESPONSE: Retorna informações do jogo.
