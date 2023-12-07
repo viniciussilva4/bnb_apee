@@ -4,5 +4,5 @@ from apee.views import LeagueView
 
 urlpatterns = [
     
-   path('ligas/', LeagueView.as_view()),
+   path('liga/', LeagueView.as_view()),
 ]
