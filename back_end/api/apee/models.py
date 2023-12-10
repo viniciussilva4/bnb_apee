@@ -24,9 +24,9 @@ class Game(models.Model):
 
    date = models.DateField()
 
-   score_team_1 = models.IntegerField()
+   score_team_1 = models.CharField(max_length = 14)
 
-   score_team_2 = models.IntegerField()
+   score_team_2 = models.CharField(max_length = 14)
 
    team_1 = models.ForeignKey('Team', on_delete = models.DO_NOTHING, related_name = 'games_1')
 

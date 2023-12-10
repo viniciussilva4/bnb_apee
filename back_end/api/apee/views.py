@@ -1,16 +1,51 @@
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
-from .serializers import LeaguesSerializer, TeamsSerializerForLeague
+from django.db.models import Q
+
+from .serializers import LeaguesSerializer, TeamsSerializer, GamesSerializer
 from apee.models import League, Team, Player, Game
 
 
 class LeagueView(APIView):
    
-   def get(self, request):
+   def get(self, request, league_id):
        
-       league = League.objects.all()
+       league = League.objects.get(pk = league_id)
 
-       league_serializer = LeaguesSerializer(league, many = True)
+       league_serializer = LeaguesSerializer(league)
 
        return Response(league_serializer.data, status = status.HTTP_200_OK)
+   
+
+class TeamView(APIView):
+
+    def get(self, request, league_id, team_id):
+
+        team = Team.objects.get(pk = team_id, league_id = league_id)
+
+        team_serializer = TeamsSerializer(team)
+
+        return Response(team_serializer.data, status = status.HTTP_200_OK)
+    
+
+class LeagueGamesView(APIView):
+
+    def get(self, request, league_id):
+
+        games = Game.objects.filter(league_id = league_id)
+
+        games_serializer = GamesSerializer(games, many = True)
+
+        return Response(games_serializer.data, status = status.HTTP_200_OK)
+    
+
+class LeagueTeamGamesView(APIView):
+
+    def get(self, request, league_id, team_id):
+
+        games = Game.objects.filter(Q(league_id = league_id) & Q(team_1_id = team_id) | Q(team_2_id = team_id))
+
+        games_serializer = GamesSerializer(games, many = True)
+
+        return Response(games_serializer.data, status = status.HTTP_200_OK)
