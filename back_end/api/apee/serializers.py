@@ -50,7 +50,7 @@ class TeamSerializerForGame(ModelSerializer):
 
         model = Team
 
-        fields = ['id', 'name']
+        fields = ['id','name']
 
 
 class GamesSerializer(ModelSerializer):
@@ -65,3 +65,46 @@ class GamesSerializer(ModelSerializer):
 
         fields = '__all__'
 
+
+class LeagueGamesSerializer(ModelSerializer):
+
+    games = GamesSerializer(many = True)
+
+    class Meta:
+
+        model = League
+
+        fields = '__all__'
+
+
+class TeamForGameSerializer(ModelSerializer):
+
+    class Meta:
+
+        model = Team
+
+        fields = ['id', 'name']
+
+
+class LeagueForGameSerializer(ModelSerializer):
+
+    class Meta:
+
+        model = League
+
+        fields = '__all__'    
+
+
+class TeamGamesSerializer(ModelSerializer):
+
+    league = LeagueForGameSerializer(read_only = True)
+
+    team_1 = TeamForGameSerializer(read_only = True)
+
+    team_2 = TeamForGameSerializer(read_only = True)
+
+    class Meta:
+
+        model = Game
+
+        fields = '__all__'

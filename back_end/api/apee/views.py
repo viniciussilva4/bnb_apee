@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from django.db.models import Q
 
-from .serializers import LeaguesSerializer, TeamsSerializer, GamesSerializer
+from .serializers import LeaguesSerializer, TeamsSerializer, TeamGamesSerializer, LeagueGamesSerializer
 from apee.models import League, Team, Player, Game
 
 
@@ -33,11 +33,11 @@ class LeagueGamesView(APIView):
 
     def get(self, request, league_id):
 
-        games = Game.objects.filter(league_id = league_id)
+        league = League.objects.get(pk = league_id)
 
-        games_serializer = GamesSerializer(games, many = True)
+        league_games_serializer = LeagueGamesSerializer(league)
 
-        return Response(games_serializer.data, status = status.HTTP_200_OK)
+        return Response(league_games_serializer.data, status = status.HTTP_200_OK)
     
 
 class LeagueTeamGamesView(APIView):
@@ -46,6 +46,6 @@ class LeagueTeamGamesView(APIView):
 
         games = Game.objects.filter(Q(league_id = league_id) & Q(team_1_id = team_id) | Q(team_2_id = team_id))
 
-        games_serializer = GamesSerializer(games, many = True)
+        games_serializer = TeamGamesSerializer(games, many = True)
 
         return Response(games_serializer.data, status = status.HTTP_200_OK)
