@@ -1,13 +1,18 @@
-// src/App.js
-import React from 'react';
-import LeagueComponent from './components/LeagueComponents';
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LeagueComponent from "./LeagueComponent.js"
+import Lay from "./Lay.js";
 
-const App = () => {
+export default function App() {
   return (
-    <div>
-      <LeagueComponent />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LeagueComponent />}></Route>
+        <Route path="/teste/:leagueId" element={<Lay />}></Route>
+      </Routes>
+    </BrowserRouter>
   );
-};
+}
 
-export default App;
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);

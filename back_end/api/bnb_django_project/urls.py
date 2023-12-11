@@ -8,4 +8,5 @@ urlpatterns = [
     path('apee/', include(apee_urls)),
     
     path('admin/', admin.site.urls),
+    
 ]
