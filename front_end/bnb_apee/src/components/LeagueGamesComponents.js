@@ -24,21 +24,17 @@ const LeagueGamesComponent = () => {
     }, [leagueId]);
   
     return (
-      <div className="container-fluid bg-dark text-white">
-        <div className="row justify-content-start">
-          <div className="col-md-8 offset-md-2 border border-white border-2">
-            <a href={`/league/${leagueId}`}><h1>{leagueData.name}</h1></a>
-            <h2>Games:</h2>
-            <ul>
-              {gamesData.map(game => (
-                <li key={game.id} id={game.id}>
-                  <div><a href={`/league/${leagueId}/${game.team_1.id}`}>{game.team_1.name}</a>{game.score_team_1}</div>
-                  <a href={`/league/${leagueId}/${game.team_2.id}`}>{game.team_2.name}</a>{game.score_team_2}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+      <div>
+        <a href={`/league/${leagueId}`}><h1>{leagueData.name}</h1></a>
+        <h2>Games:</h2>
+        <ul>
+          {gamesData.map(game => (
+            <li key={game.id} id={game.id}>
+              <div><a href={`/league/${leagueId}/${game.team_1.id}`}>{game.team_1.name}</a>{game.score_team_1}</div>
+              <a href={`/league/${leagueId}/${game.team_2.id}`}>{game.team_2.name}</a>{game.score_team_2}
+            </li>
+          ))}
+        </ul>    
       </div>
     );
   };

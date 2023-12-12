@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  db:
+    image: bitnami/postgresql:latest
+    environment:
+      POSTGRES_DB: postgre
+      POSTGRES_USER: vin
+      POSTGRES_PASSWORD: vin
+    ports:
+      - "5432:5432"
+    networks:
+      - mynetwork
+
+  web:
+    image: apee
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "80:8000"
+    depends_on:
+      - db
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:

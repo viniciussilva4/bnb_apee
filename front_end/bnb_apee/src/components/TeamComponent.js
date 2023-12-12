@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const TeamComponent = () => {
+    const [leagueData, setLeagueData] = useState({});
     const [teamData, setTeamData] = useState({});
     const [playersData, setPlayersData] = useState([]);
     const { leagueId } = useParams();
@@ -14,6 +15,7 @@ const TeamComponent = () => {
         .then(data => {
           setTeamData(data);
           setPlayersData(data.players);
+          setLeagueData(data.league);
         })
         .catch(error => {
           console.error('Error fetching data:', error);
@@ -21,19 +23,15 @@ const TeamComponent = () => {
     }, [teamId]);
   
     return (
-      <div className="container-fluid bg-dark text-white">
-        <div className="row justify-content-start">
-          <div className="col-md-8 offset-md-2 border border-white border-2">
-            <h1>{teamData.name}</h1>
-      
-            <h2>Players:</h2>
-            <ul>
-              {playersData.map(player => (
-                <li key={player.id}>{player.name}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
+      <div>
+        <h1>{teamData.name}</h1>
+        <h1><a href={`/league/${leagueId}`}>{leagueData.name}</a></h1>
+        <h2>Players:</h2>
+        <ul>
+          {playersData.map(player => (
+            <li key={player.id}>{player.name}</li>
+          ))}
+        </ul>
       </div>
     );
   };

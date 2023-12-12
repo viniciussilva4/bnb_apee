@@ -13,7 +13,7 @@ def insert_teams(teams_list, cursor):
 
     for team in teams_list:
 
-        cursor.execute(f'INSERT INTO apee_team (id, name, league_id) VALUES (?, ?, ?)', (cont, team.text, 1))
+        cursor.execute(f'INSERT INTO apee_team (id, name, league_id) VALUES (%s, %s, %s)', (cont, team.text, 1))
 
         cont += 1
 
@@ -50,21 +50,21 @@ def insert_players(players_list, cursor):
 
                         if team == 'Los Angeles Clippers':
 
-                            cursor.execute('SELECT id, name FROM apee_team WHERE name = ?', ('LA Clippers',))
+                            cursor.execute('SELECT id, name FROM apee_team WHERE name = %s', ('LA Clippers',))
 
                         else:
 
                             if team == 'Philadelphia Sixers':
                             
-                                cursor.execute('SELECT id, name FROM apee_team WHERE name = ?', ('Philadelphia 76ers',))
+                                cursor.execute('SELECT id, name FROM apee_team WHERE name = %s', ('Philadelphia 76ers',))
 
                             else:
 
-                                cursor.execute('SELECT id, name FROM apee_team WHERE name = ?', (team,))
+                                cursor.execute('SELECT id, name FROM apee_team WHERE name = %s', (team,))
 
                         team_bd = cursor.fetchone()
 
-                        cursor.execute('INSERT INTO apee_player (id, name, team_id) VALUES (?, ?, ?)', (cont, player, team_bd[0]))
+                        cursor.execute('INSERT INTO apee_player (id, name, team_id) VALUES (%s, %s, %s)', (cont, player, team_bd[0]))
 
                         print(team_bd)
 
@@ -97,21 +97,13 @@ def insert_games(games_list, cursor, cont, headers, date, conn):
 
         infos = game.findAll('li')
 
-        link_1_team = 'https://www.espn.com.br' + infos[0].find('a', {'class': 'AnchorLink'}).get('href')
+        team_1_name = infos[0].find('div', {'class': 'ScoreCell__TeamName ScoreCell__TeamName--shortDisplayName truncate db'})
 
-        link_2_team = 'https://www.espn.com.br' + infos[1].find('a', {'class': 'AnchorLink'}).get('href')
+        team_2_name = infos[1].find('div', {'class': 'ScoreCell__TeamName ScoreCell__TeamName--shortDisplayName truncate db'})
 
-        response_1 = requests.get(link_1_team, headers = headers)
+        print(team_1_name.text)
 
-        pag_1 = BeautifulSoup(response_1.text, 'html.parser')
-
-        response_2 = requests.get(link_2_team, headers = headers)
-
-        pag_2 = BeautifulSoup(response_2.text, 'html.parser')
-
-        team_1_name = pag_1.find('span', {'class': 'db pr3 nowrap'}).text + ' ' + pag_1.find('span', {'class': 'db fw-bold'}).text
-
-        team_2_name = pag_2.find('span', {'class': 'db pr3 nowrap'}).text + ' ' + pag_2.find('span', {'class': 'db fw-bold'}).text
+        print(team_2_name.text)
 
         score_team_1 = ''
 
@@ -129,39 +121,17 @@ def insert_games(games_list, cursor, cont, headers, date, conn):
 
             score_team_2 += score.text + ', '
 
-        if team_1_name == 'Los Angeles Clippers':
-
-            cursor.execute('SELECT id, name FROM apee_team WHERE name = ?', ('LA Clippers',))
-
-        else:
-
-            if team_1_name == 'Philadelphia Sixers':
-                            
-                cursor.execute('SELECT id FROM apee_team WHERE name = ?', ('Philadelphia 76ers',))
-
-            else:
-
-                cursor.execute('SELECT id FROM apee_team WHERE name = ?', (team_1_name,))
+        cursor.execute('SELECT id, name FROM apee_team WHERE name LIKE ?', ('%' + team_1_name.text,))
 
         team_1_id = cursor.fetchone()
 
-        if team_2_name == 'Los Angeles Clippers':
-
-            cursor.execute('SELECT id, name FROM apee_team WHERE name = ?', ('LA Clippers',))
-
-        else:
-
-            if team_2_name == 'Philadelphia Sixers':
-                            
-                cursor.execute('SELECT id FROM apee_team WHERE name = ?', ('Philadelphia 76ers',))
-
-            else:
-
-                cursor.execute('SELECT id FROM apee_team WHERE name = ?', (team_2_name,))
+        cursor.execute('SELECT id, name FROM apee_team WHERE name LIKE ?', ('%' + team_2_name.text,))
 
         team_2_id = cursor.fetchone()
 
-        cursor.execute('INSERT INTO apee_game (id, date, team_1_id, team_2_id, score_team_1, score_team_2, league_id) VALUES (?, ?, ?, ?, ?, ?, ?)', (cont, date.isoformat(), team_1_id[0], team_2_id[0], str(score_team_1), str(score_team_2), 1))
+        #cursor.execute('INSERT INTO apee_game (id, date, team_1_id, team_2_id, score_team_1, score_team_2, league_id) VALUES (%s, %s, %s, %s, %s, %s, %s)', (cont, date.isoformat(), team_1_id[0], team_2_id[0], str(score_team_1), str(score_team_2), 1))
+
+        cursor.execute('INSERT INTO apee_game (id, date, team_1_id, team_2_id, score_team_1, score_team_2, league_id) VALUES (?, ?, ?, ?, ?, ?, ?)', (cont, date.isoformat(), team_1_id[0], team_2_id[0], score_team_1, score_team_2, 1))
 
         cont += 1
 

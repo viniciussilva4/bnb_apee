@@ -1,30 +1,17 @@
 from rest_framework.serializers import ModelSerializer
-from rest_framework import serializers
 from apee.models import League, Team, Player, Game
-import datetime
 
 
-class TeamsSerializerForLeague(ModelSerializer):
-
-    class Meta:
-
-        model = Team
-
-        fields = ['id', 'name']
-
-
-class LeaguesSerializer(ModelSerializer):
-   
-    teams = TeamsSerializerForLeague(many = True)
+class LeagueSerializer(ModelSerializer):
 
     class Meta:
-       
-       model = League
 
-       fields = '__all__'
+        model = League
+
+        fields = '__all__'
 
 
-class PlayersSerializerForTeam(ModelSerializer):
+class PlayersSerializer(ModelSerializer):
 
     class Meta:
 
@@ -35,13 +22,26 @@ class PlayersSerializerForTeam(ModelSerializer):
 
 class TeamsSerializer(ModelSerializer):
 
-    players = PlayersSerializerForTeam(many = True)
+    league = LeagueSerializer()
+
+    players = PlayersSerializer(many = True)
 
     class Meta:
 
         model = Team
 
-        fields = '__all__'
+        fields = ['id', 'name', 'league', 'players']
+
+
+class LeaguesSerializer(ModelSerializer):
+   
+    teams = TeamsSerializer(many = True)
+
+    class Meta:
+       
+       model = League
+
+       fields = ['id', 'name', 'teams']
 
 
 class TeamSerializerForGame(ModelSerializer):
@@ -74,37 +74,19 @@ class LeagueGamesSerializer(ModelSerializer):
 
         model = League
 
-        fields = '__all__'
-
-
-class TeamForGameSerializer(ModelSerializer):
-
-    class Meta:
-
-        model = Team
-
-        fields = ['id', 'name']
-
-
-class LeagueForGameSerializer(ModelSerializer):
-
-    class Meta:
-
-        model = League
-
-        fields = '__all__'    
+        fields = ['id', 'name', 'games']
 
 
 class TeamGamesSerializer(ModelSerializer):
 
-    league = LeagueForGameSerializer(read_only = True)
+    league = LeagueSerializer()
 
-    team_1 = TeamForGameSerializer(read_only = True)
+    team_1 = TeamsSerializer()
 
-    team_2 = TeamForGameSerializer(read_only = True)
+    team_2 = TeamsSerializer()
 
     class Meta:
 
         model = Game
 
-        fields = '__all__'
+        fields = ['id', 'date', 'league', 'team_1', 'score_team_1', 'team_2', 'score_team_2']

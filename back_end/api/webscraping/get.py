@@ -11,9 +11,17 @@ headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/
 
 conn = sqlite3.connect(r'C:\Users\Nildes\Documents\bnb_apee\back_end\api\db.sqlite3')
 
+# conn = connection = psycopg2.connect(
+        # dbname = 'postgre',
+        # user = 'vin',
+        # password = 'vin',
+        # host = 'localhost',
+        # port = '5432'
+    # )
+
 cursor = conn.cursor()
 
-def get_teams(headers):
+def get_teams(headers, cursor):
 
     url = 'https://www.nba.com/teams'
 
@@ -36,7 +44,7 @@ def get_teams(headers):
         print(response.status_code)
 
 
-def get_players(headers):
+def get_players(headers, cursor):
 
     url = 'https://basketball.realgm.com/nba/players'
 
@@ -59,13 +67,15 @@ def get_players(headers):
         print(response.status_code)
 
 
-def get_games(headers, conn):
+def get_games(headers, cursor, conn):
 
     cursor.execute('DELETE FROM apee_game')
 
     cont = 1
 
-    for day_count in range(2):
+    for day_count in range(10):
+
+        time.sleep(5)
 
         today = datetime.today() + timedelta(days = - (day_count + 1))
 
@@ -93,4 +103,4 @@ def get_games(headers, conn):
 
     conn.close()
 
-get_games(headers, conn)
+get_games(headers, cursor, conn)
