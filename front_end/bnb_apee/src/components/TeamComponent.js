@@ -25,7 +25,8 @@ const TeamComponent = () => {
     return (
       <div>
         <h1>{teamData.name}</h1>
-        <h1><a href={`/league/${leagueId}`}>{leagueData.name}</a></h1>
+        <h2><a href={`/league/${leagueId}`}>{leagueData.name}</a></h2>
+        <h2><a href={`/league/${leagueId}/${teamId}/games`}>Games</a></h2>
         <h2>Players:</h2>
         <ul>
           {playersData.map(player => (

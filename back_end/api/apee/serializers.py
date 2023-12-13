@@ -1,4 +1,7 @@
 from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
+from django.db.models import Q
+
 from apee.models import League, Team, Player, Game
 
 
@@ -8,7 +11,7 @@ class LeagueSerializer(ModelSerializer):
 
         model = League
 
-        fields = '__all__'
+        fields = ['id', 'name']
 
 
 class PlayersSerializer(ModelSerializer):
@@ -63,7 +66,7 @@ class GamesSerializer(ModelSerializer):
 
         model = Game
 
-        fields = '__all__'
+        fields = ['id', 'date', 'team_1', 'score_team_1', 'team_2', 'score_team_2']
 
 
 class LeagueGamesSerializer(ModelSerializer):
@@ -81,12 +84,18 @@ class TeamGamesSerializer(ModelSerializer):
 
     league = LeagueSerializer()
 
-    team_1 = TeamsSerializer()
-
-    team_2 = TeamsSerializer()
+    games = serializers.SerializerMethodField()
 
     class Meta:
 
-        model = Game
+        model = Team
 
-        fields = ['id', 'date', 'league', 'team_1', 'score_team_1', 'team_2', 'score_team_2']
+        fields = ['id', 'name', 'league', 'games']
+
+    def get_games(self, team):
+
+        games = Game.objects.filter(Q(team_1 = team) | Q(team_2 = team))
+
+        games_serializer = GamesSerializer(games, many=True)
+
+        return games_serializer.data

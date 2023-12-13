@@ -44,8 +44,8 @@ class LeagueTeamGamesView(APIView):
 
     def get(self, request, league_id, team_id):
 
-        games = Game.objects.filter(Q(league_id = league_id) & Q(team_1_id = team_id) | Q(team_2_id = team_id))
+        team_games = Team.objects.get(pk = team_id, league_id = league_id)
 
-        games_serializer = TeamGamesSerializer(games, many = True)
+        games_serializer = TeamGamesSerializer(team_games)
 
         return Response(games_serializer.data, status = status.HTTP_200_OK)

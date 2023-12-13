@@ -30,8 +30,10 @@ const LeagueGamesComponent = () => {
         <ul>
           {gamesData.map(game => (
             <li key={game.id} id={game.id}>
-              <div><a href={`/league/${leagueId}/${game.team_1.id}`}>{game.team_1.name}</a>{game.score_team_1}</div>
-              <a href={`/league/${leagueId}/${game.team_2.id}`}>{game.team_2.name}</a>{game.score_team_2}
+              <div>
+                <a href={`/league/${leagueId}/${game.team_1.id}`}>{game.team_1.name}</a>{game.score_team_1}
+                <a href={`/league/${leagueId}/${game.team_2.id}`}>{game.team_2.name}</a>{game.score_team_2}
+              </div>
             </li>
           ))}
         </ul>    
