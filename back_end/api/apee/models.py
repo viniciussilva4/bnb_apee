@@ -33,3 +33,7 @@ class Game(models.Model):
    team_2 = models.ForeignKey('Team', on_delete = models.DO_NOTHING, related_name = 'games_2')
 
    league = models.ForeignKey('League', on_delete = models.DO_NOTHING, related_name = 'games')
+
+class UpdateVerify(models.Model):
+
+   date = models.DateField(default = '2023-12-12')

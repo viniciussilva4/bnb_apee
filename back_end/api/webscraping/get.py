@@ -73,9 +73,9 @@ def get_games(headers, cursor, conn):
 
     cont = 1
 
-    for day_count in range(10):
+    for day_count in range(20):
 
-        time.sleep(5)
+        time.sleep(10)
 
         today = datetime.today() + timedelta(days = - (day_count + 1))
 
@@ -102,5 +102,6 @@ def get_games(headers, cursor, conn):
             print(response.status_code)
 
     conn.close()
-
+get_teams(headers, cursor)
+get_players(headers, cursor)
 get_games(headers, cursor, conn)

@@ -1,23 +1,14 @@
 from django.contrib import admin
-from .models import League, Team
+from .models import League, UpdateVerify
 
 
-class TeamAdminInLine(admin.TabularInline):
+@admin.register(UpdateVerify)
+class UpdateVerifyAdmin(admin.ModelAdmin):
 
-    model = Team
-
-    extra = 1
+    list_display = ['date']
 
 
 @admin.register(League)
 class LigaAdmin(admin.ModelAdmin):
 
     list_display = ['id', 'name']
-
-    inlines = [TeamAdminInLine]
-
-
-@admin.register(Team)
-class TimeAdmin(admin.ModelAdmin):
-    
-    list_display = ['id', 'name', 'league']

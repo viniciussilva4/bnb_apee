@@ -82,6 +82,8 @@ class LeagueGamesSerializer(ModelSerializer):
 
 class TeamGamesSerializer(ModelSerializer):
 
+    players = PlayersSerializer(many = True)
+
     league = LeagueSerializer()
 
     games = serializers.SerializerMethodField()
@@ -90,7 +92,7 @@ class TeamGamesSerializer(ModelSerializer):
 
         model = Team
 
-        fields = ['id', 'name', 'league', 'games']
+        fields = ['id', 'name', 'league', 'games', 'players']
 
     def get_games(self, team):
 

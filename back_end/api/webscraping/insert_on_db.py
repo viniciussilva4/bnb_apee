@@ -1,7 +1,6 @@
 import sqlite3
 import time
 from bs4 import BeautifulSoup
-import requests
 import datetime
 
 

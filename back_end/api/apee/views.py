@@ -2,31 +2,38 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from django.db.models import Q
+from django.utils import timezone
+import subprocess
 
-from .serializers import LeaguesSerializer, TeamsSerializer, TeamGamesSerializer, LeagueGamesSerializer
-from apee.models import League, Team, Player, Game
+from .serializers import LeaguesSerializer, TeamGamesSerializer, LeagueGamesSerializer
+from apee.models import League, Team, UpdateVerify
 
 
 class LeagueView(APIView):
    
    def get(self, request, league_id):
        
+       update_instance = UpdateVerify.objects.get(pk = 1)
+
+       data_atual = timezone.now().date()
+
+       diferenca_dias = (data_atual - update_instance.date).days
+
+       limite_diferenca = 1
+
+       if diferenca_dias > limite_diferenca:
+          
+          subprocess.run(['python3', 'get.py'])
+          
+          update_instance.date = data_atual
+
+          update_instance.save()
+       
        league = League.objects.get(pk = league_id)
 
        league_serializer = LeaguesSerializer(league)
 
        return Response(league_serializer.data, status = status.HTTP_200_OK)
-   
-
-class TeamView(APIView):
-
-    def get(self, request, league_id, team_id):
-
-        team = Team.objects.get(pk = team_id, league_id = league_id)
-
-        team_serializer = TeamsSerializer(team)
-
-        return Response(team_serializer.data, status = status.HTTP_200_OK)
     
 
 class LeagueGamesView(APIView):
