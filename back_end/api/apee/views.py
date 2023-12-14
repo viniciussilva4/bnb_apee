@@ -3,7 +3,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from django.db.models import Q
 from django.utils import timezone
-import subprocess
+import os
+
 
 from .serializers import LeaguesSerializer, TeamGamesSerializer, LeagueGamesSerializer
 from apee.models import League, Team, UpdateVerify
@@ -21,9 +22,13 @@ class LeagueView(APIView):
 
        limite_diferenca = 1
 
-       if diferenca_dias > limite_diferenca:
+       if (diferenca_dias + 1) > limite_diferenca:
           
-          subprocess.run(['python3', 'get.py'])
+          # C:/Users/Nildes/Documents/bnb_apee/back_end/api/apee/get.py"
+          
+          caminho_do_arquivo = 'C:/Users/Nildes/Documents/bnb_apee/back_end/api/apee/get.py'
+
+          os.system(f'python {caminho_do_arquivo}')
           
           update_instance.date = data_atual
 

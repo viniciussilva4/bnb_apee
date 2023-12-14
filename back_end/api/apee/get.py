@@ -37,7 +37,6 @@ def get_teams(headers, cursor):
 
         conn.commit()
 
-        conn.close()
             
     else:
 
@@ -59,8 +58,6 @@ def get_players(headers, cursor):
         insert_players(players, cursor)
 
         conn.commit()
-
-        conn.close()
             
     else:
 
@@ -100,8 +97,8 @@ def get_games(headers, cursor, conn):
         else:
 
             print(response.status_code)
-
-    conn.close()
 get_teams(headers, cursor)
 get_players(headers, cursor)
 get_games(headers, cursor, conn)
+
+conn.close()

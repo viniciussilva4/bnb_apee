@@ -12,7 +12,7 @@ def insert_teams(teams_list, cursor):
 
     for team in teams_list:
 
-        cursor.execute(f'INSERT INTO apee_team (id, name, league_id) VALUES (%s, %s, %s)', (cont, team.text, 1))
+        cursor.execute(f'INSERT INTO apee_team (id, name, league_id) VALUES (?, ?, ?)', (cont, team.text, 1))
 
         cont += 1
 
@@ -49,21 +49,21 @@ def insert_players(players_list, cursor):
 
                         if team == 'Los Angeles Clippers':
 
-                            cursor.execute('SELECT id, name FROM apee_team WHERE name = %s', ('LA Clippers',))
+                            cursor.execute('SELECT id, name FROM apee_team WHERE name = ?', ('LA Clippers',))
 
                         else:
 
                             if team == 'Philadelphia Sixers':
                             
-                                cursor.execute('SELECT id, name FROM apee_team WHERE name = %s', ('Philadelphia 76ers',))
+                                cursor.execute('SELECT id, name FROM apee_team WHERE name = ?', ('Philadelphia 76ers',))
 
                             else:
 
-                                cursor.execute('SELECT id, name FROM apee_team WHERE name = %s', (team,))
+                                cursor.execute('SELECT id, name FROM apee_team WHERE name = ?', (team,))
 
                         team_bd = cursor.fetchone()
 
-                        cursor.execute('INSERT INTO apee_player (id, name, team_id) VALUES (%s, %s, %s)', (cont, player, team_bd[0]))
+                        cursor.execute('INSERT INTO apee_player (id, name, team_id) VALUES (?, ?, ?)', (cont, player, team_bd[0]))
 
                         print(team_bd)
 

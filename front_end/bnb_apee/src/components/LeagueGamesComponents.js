@@ -36,7 +36,7 @@ const LeagueGamesComponent = () => {
               <li key={game.id} id={game.id}>
                 <div className='table-responsive'>
                   <table className='table'>
-                    <caption>Game</caption>
+                    <caption>{game.date}</caption>
                     <thead className='table-dark'>
                       <tr>
                         <th>Name</th>
