@@ -79,6 +79,18 @@ class LeagueGamesSerializer(ModelSerializer):
 
         fields = ['id', 'name', 'games']
 
+    # def to_representation(self, instance):
+
+    #     games_queryset = instance.games.all().order_by('-date')
+
+    #     games_data = GamesSerializer(games_queryset, many=True).data
+
+    #     representation = super(LeagueGamesSerializer, self).to_representation(instance)
+
+    #     representation['games'] = games_data
+
+    #     return representation
+
 
 class TeamGamesSerializer(ModelSerializer):
 
@@ -101,3 +113,15 @@ class TeamGamesSerializer(ModelSerializer):
         games_serializer = GamesSerializer(games, many=True)
 
         return games_serializer.data
+    
+    # def to_representation(self, instance):
+     
+    #     games_queryset = instance.games.all().order_by('-date')
+
+    #     games_data = GamesSerializer(games_queryset, many=True).data
+
+    #     representation = super(LeagueGamesSerializer, self).to_representation(instance)
+        
+    #     representation['games'] = games_data
+
+    #     return representation

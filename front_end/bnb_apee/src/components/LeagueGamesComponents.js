@@ -32,7 +32,7 @@ const LeagueGamesComponent = () => {
         <div className='row'>
           <div className='col'>
             <ul className='list-unstyled'>
-              {gamesData.map(game => (
+              {gamesData.slice().reverse().map(game => (
               <li key={game.id} id={game.id}>
                 <div className='table-responsive'>
                   <table className='table'>

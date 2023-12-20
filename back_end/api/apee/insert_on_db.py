@@ -1,8 +1,10 @@
 import sqlite3
 import time
 from bs4 import BeautifulSoup
-import datetime
+from datetime import datetime, timedelta
+import requests
 
+headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
 
 def insert_teams(teams_list, cursor):
 
@@ -90,51 +92,64 @@ def insert_players(players_list, cursor):
             pass
 
 
-def insert_games(games_list, cursor, cont, headers, date, conn):
+def insert_games(times, cursor):
 
-    for game in games_list:
+    games_list = []
 
-        infos = game.findAll('li')
+    for day_count in range(int(times)):
 
-        team_1_name = infos[0].find('div', {'class': 'ScoreCell__TeamName ScoreCell__TeamName--shortDisplayName truncate db'})
+            time.sleep(5)
 
-        team_2_name = infos[1].find('div', {'class': 'ScoreCell__TeamName ScoreCell__TeamName--shortDisplayName truncate db'})
+            today = datetime.today() + timedelta(days = - (day_count + 1))
 
-        print(team_1_name.text)
+            today = today.strftime("%Y") + today.strftime("%m") + today.strftime("%d")
 
-        print(team_2_name.text)
+            url = f'https://www.espn.com.br/nba/resultados/_/data/{today}'
 
-        score_team_1 = ''
+            today = (datetime.today() + timedelta(days = - (day_count + 1))).date()
 
-        score_team_2 = ''
+            response = requests.get(url, headers = headers)
 
-        score_1 = infos[0].findAll('div', {'class': 'ScoreboardScoreCell__Value flex justify-center pl2 basketball'})
+            if response.status_code == 200:
 
-        score_2 = infos[1].findAll('div', {'class': 'ScoreboardScoreCell__Value flex justify-center pl2 basketball'})
+                pag = BeautifulSoup(response.text, 'html.parser')
 
-        for score in score_1:
+                games = pag.findAll('div', {'class': 'ScoreboardScoreCell pa4 nba basketball ScoreboardScoreCell--post ScoreboardScoreCell--tabletPlus'})
 
-            score_team_1 += score.text + ', '
+                for game in games:
 
-        for score in score_2:
+                    infos = game.findAll('li')
 
-            score_team_2 += score.text + ', '
+                    team_1_name = infos[0].find('div', {'class': 'ScoreCell__TeamName ScoreCell__TeamName--shortDisplayName truncate db'})
 
-        cursor.execute('SELECT id, name FROM apee_team WHERE name LIKE ?', ('%' + team_1_name.text,))
+                    team_2_name = infos[1].find('div', {'class': 'ScoreCell__TeamName ScoreCell__TeamName--shortDisplayName truncate db'})
 
-        team_1_id = cursor.fetchone()
+                    score_team_1 = ''
 
-        cursor.execute('SELECT id, name FROM apee_team WHERE name LIKE ?', ('%' + team_2_name.text,))
+                    score_team_2 = ''
 
-        team_2_id = cursor.fetchone()
+                    score_1 = infos[0].findAll('div', {'class': 'ScoreboardScoreCell__Value flex justify-center pl2 basketball'})
 
-        #cursor.execute('INSERT INTO apee_game (id, date, team_1_id, team_2_id, score_team_1, score_team_2, league_id) VALUES (%s, %s, %s, %s, %s, %s, %s)', (cont, date.isoformat(), team_1_id[0], team_2_id[0], str(score_team_1), str(score_team_2), 1))
+                    score_2 = infos[1].findAll('div', {'class': 'ScoreboardScoreCell__Value flex justify-center pl2 basketball'})
 
-        cursor.execute('INSERT INTO apee_game (id, date, team_1_id, team_2_id, score_team_1, score_team_2, league_id) VALUES (?, ?, ?, ?, ?, ?, ?)', (cont, date.isoformat(), team_1_id[0], team_2_id[0], score_team_1, score_team_2, 1))
+                    for score in score_1:
 
-        cont += 1
+                        score_team_1 += score.text + ', '
 
-        conn.commit()
+                    for score in score_2:
 
+                        score_team_2 += score.text + ', '
 
+                    cursor.execute('SELECT id FROM apee_team WHERE name LIKE ?', ('%' + team_1_name.text,))
 
+                    team_1_id = cursor.fetchone()
+
+                    cursor.execute('SELECT id FROM apee_team WHERE name LIKE ?', ('%' + team_2_name.text,))
+
+                    team_2_id = cursor.fetchone()
+
+                    game = (today, team_1_id[0], team_2_id[0], score_team_1, score_team_2, 1)
+
+                    games_list.append(game)
+
+    return games_list
