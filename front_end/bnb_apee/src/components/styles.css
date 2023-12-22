@@ -15,3 +15,62 @@
     color: rgb(0, 0, 0);
     text-decoration: none
 }
+
+table, th, td {
+  border: 0.2rem solid;
+  border-color: rgb(0, 0, 0);  
+}
+
+td.score_bg {
+  text-align: center;
+  background-color: rgb(164, 163, 163);
+}
+
+td.score_sum_bg {
+  text-align: center;
+  background-color: rgb(81, 80, 80);
+  font-weight: bold;
+}
+
+td.score_sum_bgd {
+  text-align: center;
+  background-color: rgb(35, 35, 35);
+  color: white;
+  font-weight: bold;
+}
+
+th.date {
+  text-align: center;
+  background-color: black;
+  color: white;
+  font-weight: bold;
+}
+
+td.team_name {
+  color: black;
+  text-align: center;
+  font-weight: bold;
+}
+
+.con {
+  border-color: black;
+}
+
+
+td.minimum {
+  text-align: center;
+  background-color: rgb(255, 0, 0);
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+}
+
+td.maximum {
+  text-align: center;
+  background-color: rgb(0, 69, 1);
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+}
+
+body {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}

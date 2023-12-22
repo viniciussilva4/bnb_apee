@@ -72,19 +72,19 @@ def get_games(headers, cursor, conn):
 
     if cont[0] == 0:
 
+        contt = 0
+
         games_list = insert_games(20, cursor)
 
         for id in range(len(games_list), 0, -1):
 
             print(id)
-
-            print(games_list[cont])
             
-            cursor.execute('INSERT INTO apee_game (id, date, team_1_id, team_2_id, score_team_1, score_team_2, league_id) VALUES (?, ?, ?, ?, ?, ?, ?)', (id, games_list[cont][0].isoformat(), games_list[cont][1], games_list[cont][2], games_list[cont][3], games_list[cont][4], 1))
+            cursor.execute('INSERT INTO apee_game (id, date, team_1_id, team_2_id, score_team_1, score_team_2, league_id) VALUES (?, ?, ?, ?, ?, ?, ?)', (id, games_list[contt][0].isoformat(), games_list[contt][1], games_list[contt][2], games_list[contt][3], games_list[contt][4], 1))
 
             # cursor.execute('INSERT INTO apee_game (id, date, team_1_id, team_2_id, score_team_1, score_team_2, league_id) VALUES (%s, %s, %s, %s, %s, %s, %s)', (cont, date.isoformat(), team_1_id[0], team_2_id[0], str(score_team_1), str(score_team_2), 1))
 
-            cont += 1
+            contt += 1
 
         conn.commit()
 

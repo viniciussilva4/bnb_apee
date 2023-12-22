@@ -62,11 +62,51 @@ class GamesSerializer(ModelSerializer):
 
     team_2 = TeamSerializerForGame(read_only = True)
 
+    sum_first_time_team_1 = serializers.SerializerMethodField()
+
+    sum_first_time_team_2 = serializers.SerializerMethodField()
+
+    sum_second_time_team_1 = serializers.SerializerMethodField()
+
+    sum_second_time_team_2 = serializers.SerializerMethodField()
+
+    sum_first_time = serializers.SerializerMethodField()
+
     class Meta:
 
         model = Game
 
-        fields = ['id', 'date', 'team_1', 'score_team_1', 'team_2', 'score_team_2']
+        fields = ['id', 'date', 'team_1', 'score_team_1', 'team_2', 'score_team_2', 'sum_first_time_team_1', 'sum_first_time_team_2', 'sum_first_time', 'sum_second_time_team_1', 'sum_second_time_team_2']
+
+    def get_sum_first_time_team_1(self, game):
+
+        first_time_sum = int(game.score_team_1[0:2]) + int(game.score_team_1[4:6])
+
+        return first_time_sum
+    
+    def get_sum_first_time_team_2(self, game):
+
+        first_time_sum = int(game.score_team_2[0:2]) + int(game.score_team_2[4:6])
+
+        return first_time_sum
+    
+    def get_sum_second_time_team_1(self, game):
+
+        first_time_sum = int(game.score_team_1[8:10]) + int(game.score_team_1[12:14])
+
+        return first_time_sum
+    
+    def get_sum_second_time_team_2(self, game):
+
+        first_time_sum = int(game.score_team_2[8:10]) + int(game.score_team_2[12:14])
+
+        return first_time_sum
+    
+    def get_sum_first_time(self, game):
+
+        first_time_sum = int(game.score_team_1[0:2]) + int(game.score_team_1[4:6]) + int(game.score_team_2[0:2]) + int(game.score_team_2[4:6])
+
+        return first_time_sum
 
 
 class LeagueGamesSerializer(ModelSerializer):
@@ -79,17 +119,17 @@ class LeagueGamesSerializer(ModelSerializer):
 
         fields = ['id', 'name', 'games']
 
-    # def to_representation(self, instance):
+    def to_representation(self, instance):
 
-    #     games_queryset = instance.games.all().order_by('-date')
+        games_queryset = instance.games.all().order_by('date')
 
-    #     games_data = GamesSerializer(games_queryset, many=True).data
+        games_data = GamesSerializer(games_queryset, many = True).data
 
-    #     representation = super(LeagueGamesSerializer, self).to_representation(instance)
+        representation = super(LeagueGamesSerializer, self).to_representation(instance)
 
-    #     representation['games'] = games_data
+        representation['games'] = games_data
 
-    #     return representation
+        return representation
 
 
 class TeamGamesSerializer(ModelSerializer):
@@ -104,24 +144,12 @@ class TeamGamesSerializer(ModelSerializer):
 
         model = Team
 
-        fields = ['id', 'name', 'league', 'games', 'players']
+        fields = ['id', 'name', 'league', 'games', 'players'] 
 
     def get_games(self, team):
 
-        games = Game.objects.filter(Q(team_1 = team) | Q(team_2 = team))
+        games = Game.objects.filter(Q(team_1 = team) | Q(team_2 = team)).order_by('-date')
 
         games_serializer = GamesSerializer(games, many=True)
 
         return games_serializer.data
-    
-    # def to_representation(self, instance):
-     
-    #     games_queryset = instance.games.all().order_by('-date')
-
-    #     games_data = GamesSerializer(games_queryset, many=True).data
-
-    #     representation = super(LeagueGamesSerializer, self).to_representation(instance)
-        
-    #     representation['games'] = games_data
-
-    #     return representation
