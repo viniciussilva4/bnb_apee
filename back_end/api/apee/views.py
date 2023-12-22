@@ -24,7 +24,7 @@ class LeagueView(APIView):
 
        if (diferenca_dias + 1) > limite_diferenca:
          
-          caminho_do_arquivo = 'C:/Usuários/bnb_apee/back_end/api/apee/get.py'
+          caminho_do_arquivo = 'C:/Usuários/naoac/bnb_apee/back_end/api/apee/get.py'
 
           os.system(f'python {caminho_do_arquivo}')
           
