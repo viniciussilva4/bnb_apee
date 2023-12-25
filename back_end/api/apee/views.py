@@ -22,15 +22,9 @@ class LeagueView(APIView):
 
        diference_limit = 1
 
-<<<<<<< HEAD
        if (day_diference + 1) > diference_limit:
           
           path_file = os.path.abspath(__file__)
-=======
-       if (diferenca_dias + 1) > limite_diferenca:
-         
-          caminho_do_arquivo = 'C:/Usuários/naoac/bnb_apee/back_end/api/apee/get.py'
->>>>>>> 3db56a9aec261be933d6920270a57fa78c5ed667
 
           path_file = path_file[:-8] + 'get.py'
 
