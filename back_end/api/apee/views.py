@@ -16,21 +16,21 @@ class LeagueView(APIView):
        
        update_instance = UpdateVerify.objects.get(pk = 1)
 
-       data_atual = timezone.now().date()
+       curent_date = timezone.now().date()
 
-       diferenca_dias = (data_atual - update_instance.date).days
+       day_diference = (curent_date - update_instance.date).days
 
-       limite_diferenca = 1
+       diference_limit = 1
 
-       if (diferenca_dias + 1) > limite_diferenca:
+       if (day_diference + 1) > diference_limit:
           
-          
-          
-          caminho_do_arquivo = 'C:/Usuários/bnb_apee/back_end/api/apee/get.py'
+          path_file = os.path.abspath(__file__)
 
-          os.system(f'python {caminho_do_arquivo}')
+          path_file = path_file[:-8] + 'get.py'
+
+          os.system(f'python {path_file}')
           
-          update_instance.date = data_atual
+          update_instance.date = curent_date
 
           update_instance.save()
        

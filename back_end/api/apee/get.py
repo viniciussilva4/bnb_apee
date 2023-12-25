@@ -23,45 +23,65 @@ cursor = conn.cursor()
 
 def get_teams(headers, cursor):
 
-    url = 'https://www.nba.com/teams'
+    cursor.execute('SELECT COUNT(*) FROM apee_team')
 
-    response = requests.get(url, headers = headers)
+    have_team = cursor.fetchone()
 
-    if response.status_code == 200:
+    if have_team[0] == 0:
 
-        pag = BeautifulSoup(response.text, 'html.parser')
+        pass
 
-        teams = pag.findAll("a", class_ = 'Anchor_anchor__cSc3P TeamFigure_tfMainLink__OPLFu')
-
-        insert_teams(teams, cursor)
-
-        conn.commit()
-
-            
     else:
 
-        print(response.status_code)
+        url = 'https://www.nba.com/teams'
+
+        response = requests.get(url, headers = headers)
+
+        if response.status_code == 200:
+
+            pag = BeautifulSoup(response.text, 'html.parser')
+
+            teams = pag.findAll("a", class_ = 'Anchor_anchor__cSc3P TeamFigure_tfMainLink__OPLFu')
+
+            insert_teams(teams, cursor)
+
+            conn.commit()
+
+                
+        else:
+
+            print(response.status_code)
 
 
 def get_players(headers, cursor):
 
-    url = 'https://basketball.realgm.com/nba/players'
+    cursor.execute('SELECT COUNT(*) FROM apee_player')
 
-    response = requests.get(url, headers = headers)
+    have_player = cursor.fetchone()
 
-    if response.status_code == 200:
+    if have_player[0] != 0:
 
-        pag = BeautifulSoup(response.text, 'html.parser')
+        pass
 
-        players = pag.findAll("tr")
-
-        insert_players(players, cursor)
-
-        conn.commit()
-            
     else:
 
-        print(response.status_code)
+        url = 'https://basketball.realgm.com/nba/players'
+
+        response = requests.get(url, headers = headers)
+
+        if response.status_code == 200:
+
+            pag = BeautifulSoup(response.text, 'html.parser')
+
+            players = pag.findAll("tr")
+
+            insert_players(players, cursor)
+
+            conn.commit()
+                
+        else:
+
+            print(response.status_code)
 
 
 def get_games(headers, cursor, conn):

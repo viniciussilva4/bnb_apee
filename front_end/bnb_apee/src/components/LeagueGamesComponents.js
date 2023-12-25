@@ -32,48 +32,65 @@ const LeagueGamesComponent = () => {
         <div className='row'>
           <div className='col'>
             <ul className='list-unstyled'>
-              {gamesData.slice().reverse().map(game => (
-              <li key={game.id} id={game.id}>
+              
+              {gamesData.map((game, index) => {
+            
+              const game_p_1_1 = game.score_team_1.split(', ')[0]
+              const game_p_1_2 = game.score_team_1.split(', ')[1]
+              const game_p_1_3 = game.score_team_1.split(', ')[2]
+              const game_p_1_4 = game.score_team_1.split(', ')[3]
+              const game_p_2_1 = game.score_team_2.split(', ')[0]
+              const game_p_2_2 = game.score_team_2.split(', ')[1]
+              const game_p_2_3 = game.score_team_2.split(', ')[2]
+              const game_p_2_4 = game.score_team_2.split(', ')[3]
+
+              return (
+              <li key={game.id} id={game.id}>                
                 <div className='table-responsive'>
-                  <table className='table'>
-                    <caption>{game.date}</caption>
-                    <thead className='table-dark'>
+                  <table className='my-1 mx-0 table con'>
+                    <thead>
                       <tr>
-                        <th>Name</th>
-                        <th colSpan={4}>Scores</th>
-                        <th>Final Score</th>
+                        <th scope="col-6" colSpan={8} className='p-0 date'>{game.date}</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td><a className='black' href={`/league/${leagueId}/${game.team_1.id}`}>{game.team_1.name}</a></td>
-                        <td>{game.score_team_1.split(', ')[0]}</td>
-                        <td>{game.score_team_1.split(', ')[1]}</td>
-                        <td>{game.score_team_1.split(', ')[2]}</td>
-                        <td>{game.score_team_1.split(', ')[3]}</td>
-                        <td>{parseInt(game.score_team_1.split(', ')[0]) + parseInt(game.score_team_1.split(', ')[1]) + parseInt(game.score_team_1.split(', ')[2]) + parseInt(game.score_team_1.split(', ')[3])}</td>
+                        <td scope="row" className='p-0 score_bg team_name col-8'><a className='black' href={`/league/${leagueId}/${game.team_1.id}`}>{game.team_1.name}</a></td>
+                        <td className='p-0 score_bg'>{game_p_1_1}</td>
+                        <td className='p-0 score_bg'>{game_p_1_2}</td>
+                        <td className='p-0 score_sum_bgd'>{game.sum_first_time_team_1}</td>
+                        <td className='no_bord'></td>
+                        <td className='p-0 score_bg'>{game_p_1_3}</td>
+                        <td className='p-0 score_bg'>{game_p_1_4}</td>
+                        <td className='p-0 score_sum_bgd'>{parseInt(game.sum_first_time_team_1) + parseInt(game.sum_second_time_team_1)}</td>
                       </tr>
+
                       <tr>
-                      <td><a className='black' href={`/league/${leagueId}/${game.team_2.id}`}>{game.team_2.name}</a></td>
-                        <td>{game.score_team_2.split(', ')[0]}</td>
-                        <td>{game.score_team_2.split(', ')[1]}</td>
-                        <td>{game.score_team_2.split(', ')[2]}</td>
-                        <td>{game.score_team_2.split(', ')[3]}</td>
-                        <td>{parseInt(game.score_team_2.split(', ')[0]) + parseInt(game.score_team_2.split(', ')[1]) + parseInt(game.score_team_2.split(', ')[2]) + parseInt(game.score_team_2.split(', ')[3])}</td>
+                      <td  scope="row" className='p-0 score_bg team_name'><a className='black' href={`/league/${leagueId}/${game.team_2.id}`}>{game.team_2.name}</a></td>
+                        <td className='p-0 score_bg'>{game_p_2_1}</td>
+                        <td className='p-0 score_bg'>{game_p_2_2}</td>
+                        <td className='p-0 score_sum_bgd'>{game.sum_first_time_team_2}</td>
+                        <td className='no_bord'></td>
+                        <td className='p-0 score_bg'>{game_p_2_3}</td>
+                        <td className='p-0 score_bg'>{game_p_2_4}</td>
+                        <td className='p-0 score_sum_bgd'>{parseInt(game.sum_first_time_team_2) + parseInt(game.sum_second_time_team_2)}</td>
                       </tr>
-                      <tr className='table-dark'>
-                        <td>Vertical Sum</td>
-                        <td>{parseInt(game.score_team_1.split(', ')[0]) + parseInt(game.score_team_2.split(', ')[0])}</td>
-                        <td>{parseInt(game.score_team_1.split(', ')[1]) + parseInt(game.score_team_2.split(', ')[1])}</td>
-                        <td>{parseInt(game.score_team_1.split(', ')[2]) + parseInt(game.score_team_2.split(', ')[2])}</td>
-                        <td>{parseInt(game.score_team_1.split(', ')[3]) + parseInt(game.score_team_2.split(', ')[3])}</td>
-                        <td>{game.score_team_1.split(', ').slice(0, 4).map(score => parseInt(score)).reduce((acc, score) => acc + score, 0) + game.score_team_2.split(', ').slice(0, 4).map(score => parseInt(score)).reduce((acc, score) => acc + score, 0)}</td>
+
+                      <tr>
+                        <td scope="row" className='p-0 score_sum_bgd'></td>
+                        <td className='p-0 score_sum_bgd'>{parseInt(game_p_1_1) + parseInt(game_p_2_1)}</td>
+                        <td className='p-0 score_sum_bgd'>{parseInt(game_p_1_2) + parseInt(game_p_2_2)}</td>
+                        <td className='p-0 score_sum_bgd'>{parseInt(game.sum_first_time_team_1) + parseInt(game.sum_first_time_team_2)}</td>
+                        <td className='no_bord'></td>
+                        <td className='p-0 score_sum_bgd'>{parseInt(game_p_1_3) + parseInt(game_p_2_3)}</td>
+                        <td className='p-0 score_sum_bgd'>{parseInt(game_p_1_4) + parseInt(game_p_2_4)}</td>
+                        <td className='p-0 score_sum_bgd'>{parseInt(game.sum_first_time_team_1) + parseInt(game.sum_second_time_team_1) + parseInt(game.sum_first_time_team_2) + parseInt(game.sum_second_time_team_2)}</td>    
                       </tr>
                     </tbody>
                   </table>
                 </div>
               </li>
-              ))}
+              )})}
             </ul> 
           </div>
         </div>  

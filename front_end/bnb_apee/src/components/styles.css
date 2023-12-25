@@ -16,27 +16,27 @@
     text-decoration: none
 }
 
-table, th, td {
-  border: 0.2rem solid;
-  border-color: rgb(0, 0, 0);  
-}
-
 td.score_bg {
   text-align: center;
   background-color: rgb(164, 163, 163);
+  border: 0.2rem solid;
+  border-color: rgb(0, 0, 0);  
 }
 
 td.score_sum_bg {
   text-align: center;
   background-color: rgb(81, 80, 80);
   font-weight: bold;
+  border: 0.2rem solid;
+  border-color: rgb(0, 0, 0);  
 }
 
 td.score_sum_bgd {
   text-align: center;
   background-color: rgb(35, 35, 35);
   color: white;
-  font-weight: bold;
+  border: 0.2rem solid;
+  border-color: rgb(0, 0, 0);  
 }
 
 th.date {
@@ -44,6 +44,8 @@ th.date {
   background-color: black;
   color: white;
   font-weight: bold;
+  border: 0.2rem solid;
+  border-color: rgb(0, 0, 0);  
 }
 
 td.team_name {
@@ -52,16 +54,17 @@ td.team_name {
   font-weight: bold;
 }
 
-.con {
+table.con {
   border-color: black;
 }
-
 
 td.minimum {
   text-align: center;
   background-color: rgb(255, 0, 0);
   color: rgb(0, 0, 0);
   font-weight: bold;
+  border: 0.2rem solid;
+  border-color: rgb(0, 0, 0);  
 }
 
 td.maximum {
@@ -69,6 +72,14 @@ td.maximum {
   background-color: rgb(0, 69, 1);
   color: rgb(0, 0, 0);
   font-weight: bold;
+  border: 0.2rem solid;
+  border-color: rgb(0, 0, 0);  
+}
+
+td.no_bord {
+  border: 0rem;
+  background-color: rgb(255, 255, 255);
+  color: white;
 }
 
 body {

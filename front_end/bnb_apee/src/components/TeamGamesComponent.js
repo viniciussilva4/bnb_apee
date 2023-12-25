@@ -273,7 +273,7 @@ const TeamGamesComponent = () => {
                         <td className='p-0 score_bg'>{game_p_1_1}</td>
                         <td className='p-0 score_bg'>{game_p_1_2}</td>
                         <td className='p-0 score_sum_bgd'>{game.sum_first_time_team_1}</td>
-                        <td></td>
+                        <td className='no_bord'></td>
                         <td className='p-0 score_bg'>{game_p_1_3}</td>
                         <td className='p-0 score_bg'>{game_p_1_4}</td>
                         
@@ -285,7 +285,7 @@ const TeamGamesComponent = () => {
                         <td className='p-0 score_bg'>{game_p_2_1}</td>
                         <td className='p-0 score_bg'>{game_p_2_2}</td>
                         <td className='p-0 score_sum_bgd'>{game.sum_first_time_team_2}</td>
-                        <td></td>
+                        <td className='no_bord'></td>
                         <td className='p-0 score_bg'>{game_p_2_3}</td>
                         <td className='p-0 score_bg'>{game_p_2_4}</td>
                         
@@ -297,7 +297,7 @@ const TeamGamesComponent = () => {
                         <td className='p-0 score_sum_bgd'>{parseInt(game_p_1_1) + parseInt(game_p_2_1)}</td>
                         <td className='p-0 score_sum_bgd'>{parseInt(game_p_1_2) + parseInt(game_p_2_2)}</td>
                         <td className={verifyFirstSum}>{parseInt(game.sum_first_time_team_1) + parseInt(game.sum_first_time_team_2)}</td>
-                        <td></td>
+                        <td className='no_bord'></td>
                         <td className='p-0 score_sum_bgd'>{parseInt(game_p_1_3) + parseInt(game_p_2_3)}</td>
                         <td className='p-0 score_sum_bgd'>{parseInt(game_p_1_4) + parseInt(game_p_2_4)}</td>
                         

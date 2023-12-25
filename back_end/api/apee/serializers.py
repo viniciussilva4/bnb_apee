@@ -80,25 +80,25 @@ class GamesSerializer(ModelSerializer):
 
     def get_sum_first_time_team_1(self, game):
 
-        first_time_sum = int(game.score_team_1[0:2]) + int(game.score_team_1[4:6])
+        first_time_sum = int(game.score_team_1.split(',')[0].strip()) + int(game.score_team_1.split(',')[1].strip())
 
         return first_time_sum
     
     def get_sum_first_time_team_2(self, game):
 
-        first_time_sum = int(game.score_team_2[0:2]) + int(game.score_team_2[4:6])
+        first_time_sum = int(game.score_team_2.split(',')[0].strip()) + int(game.score_team_2.split(',')[1].strip())
 
         return first_time_sum
     
     def get_sum_second_time_team_1(self, game):
 
-        first_time_sum = int(game.score_team_1[8:10]) + int(game.score_team_1[12:14])
+        first_time_sum = int(game.score_team_1.split(',')[2].strip()) + int(game.score_team_1.split(',')[3].strip())
 
         return first_time_sum
     
     def get_sum_second_time_team_2(self, game):
 
-        first_time_sum = int(game.score_team_2[8:10]) + int(game.score_team_2[12:14])
+        first_time_sum = int(game.score_team_2.split(',')[2].strip()) + int(game.score_team_2.split(',')[3].strip())
 
         return first_time_sum
     
@@ -121,7 +121,7 @@ class LeagueGamesSerializer(ModelSerializer):
 
     def to_representation(self, instance):
 
-        games_queryset = instance.games.all().order_by('date')
+        games_queryset = instance.games.all().order_by('-date')
 
         games_data = GamesSerializer(games_queryset, many = True).data
 
