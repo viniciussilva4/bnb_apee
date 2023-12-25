@@ -1,3 +1,4 @@
+
 import os
 
 # Obtendo o caminho absoluto do arquivo atual
@@ -8,3 +9,4 @@ print(caminho_script)
 caminho_script = caminho_script[:-8] + 'get.py'
 
 print(caminho_script)
+
