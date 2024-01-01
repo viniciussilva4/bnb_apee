@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import './styles.css'
 
-const TeamGamesComponent = () => {
-  const [leagueData, setLeagueData] = useState({});
+const TesteComponent = () => {
+    const [leagueData, setLeagueData] = useState({});
     const [teamData, setTeamData] = useState({});
     const [gamesData, setGamesData] = useState([]);
     const [playersData, setPlayersData] = useState([]);
@@ -273,6 +273,4 @@ const TeamGamesComponent = () => {
     );
   };
 
-
-
-export default TeamGamesComponent;
+export default TesteComponent;

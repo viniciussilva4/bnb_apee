@@ -6,8 +6,19 @@ from django.utils import timezone
 import os
 
 
-from .serializers import LeaguesSerializer, TeamGamesSerializer, LeagueGamesSerializer
+from .serializers import LeagueSerializer, LeaguesSerializer, TeamGamesSerializer, LeagueGamesSerializer
 from apee.models import League, Team, UpdateVerify
+
+
+class LeagueOnlyView(APIView):
+
+    def get(self, request):
+
+        leagues = League.objects.all()
+
+        leagues_serializer = LeagueSerializer(leagues, many = True)
+
+        return Response(leagues_serializer.data, status = status.HTTP_200_OK)
 
 
 class LeagueView(APIView):
